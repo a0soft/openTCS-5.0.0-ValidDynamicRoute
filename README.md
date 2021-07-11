@@ -44,6 +44,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
             /routing/PointRouterFactory.java (08)
 
 (2)用于测试的文件(Files used for testing)
+
     /data
         /script/1-tn-demo-lb-1234-sil.sh (04)
         /script/2-tn-demo-lb-1234-create-to-part1.sh (05)
@@ -87,9 +88,8 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 以下对相关文件逐一描述.
 
 ### (01)tn-demo-lb-1234.xml
-这是测试用的交通运输网模型文件,
-其改编自openTCS官方自带的0.0.3版的Demo-01.xml.
 
+这是测试用的交通运输网模型文件，其改编自openTCS官方自带的0.0.3版的Demo-01.xml.
 
 以下是对车辆Ve0001的主要描述:
 
@@ -110,6 +110,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     </vehicle>
 
 ### **(02)DefaultDispatcherConfiguration.java**
+
 派发器配置中, 为重新寻路触发器加入相关配置项.
 
     @ConfigurationEntry(
@@ -136,7 +137,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     }
 
 ### **(03)opentcs-kernel-defaults-baseline.properties**
+
 为方便测试, 修改配置文件.
+
     #kernelapp.autoEnableDriversOnStartup = false
     kernelapp.autoEnableDriversOnStartup = true
     ####
@@ -156,6 +159,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 ### **(04)1-tn-demo-lb-1234-set-vil.sh**
 
 该批处理调用curl, 将对应车辆的集成级别设置为使用.
+
     #!/bin/sh
 
     curl -X PUT "http://localhost:55200/v1/vehicles/Ve0001/integrationLevel
@@ -173,6 +177,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 ### **(05)2-tn-demo-lb-1234-create-to-part1.sh**
 
 该批处理调用curl, 生成几个运单, 其分别预订一辆指定的车.
+
     #!/bin/sh
 
     curl -X POST
@@ -207,6 +212,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 ### **(06)3-tn-demo-lb-1234-create-to-part2.sh**
 
 该批处理调用curl, 生成配合(05)的几个运单.
+
     #!/bin/sh
 
     curl -X POST
@@ -238,12 +244,15 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     {\"locationName\":\"Re04\",\"operation\":\"CHARGE\"}]}"
 
 以下三个文件中运单号不同, 且:
+
     9-tn-demo-lb-1234-create-to-part2.sh, 与之类似;
     5-tn-demo-lb-1234-create-to-nv-part2.sh, 与之类似但未预订车辆;
     7-tn-demo-lb-1234-create-to-nv-part2.sh, 与之类似但未预订车辆.
 
 ### **(07)DefaultRouter.java**
+
 1)修改了以下2个方法.
+
       @Override
       public Optional<List<DriveOrder>> getRoute(
         Vehicle vehicle, Point sourcePoint, TransportOrder transportOrder) {
@@ -291,6 +300,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       }
 
 2)新增以下2个方法.
+
       /// ------------------------------------------------------------------------
       private Collection<Point> getUnusablePoints(
         Point sourcePoint, Vehicle vehicle) {
@@ -413,7 +423,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     import java.util.Collection;
 
 ### **(08)PointRouterFactory.java**
+
 1)声明接口.
+
       /// ------------------------------------------------------------------------
       /// Creates a point router for the given vehicle
       ///     and excludes the unusablePoints.
@@ -434,7 +446,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 注：removeUnusablePoints，这个《改造OpenTCS之如何避免无效路由of基于OpenTCS的二次开发实践》一文中提及的方法，已不再需要，其逻辑应在该接口的实现中体现即可.
 
 ### **(09)AbstractPointRouterFactory.java**
+
 1)修改方法.
+
       @Override
       public PointRouter createPointRouter(Vehicle vehicle) {
         /*...*/
@@ -459,6 +473,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       }
 
 2)新增以下方法和数据.
+
       /// ------------------------------------------------------------------------
       /// Creates a point router for the given vehicle
       ///     and excludes the unusablePoints.
@@ -548,7 +563,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     import org.opentcs.data.model.Group;
 
 ### **(10)ShortestPathPointRouter.java**
+
 1)修改以下方法.
+
       @Override
       public long getCosts(TCSObjectReference<Point> srcPointRef,
                            TCSObjectReference<Point> destPointRef) {
@@ -583,7 +600,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 <font color=#ff0000>注：网友们提到的不能派单或不能自动分配车辆现象，可能因为前言所述两篇文章忽略了此部分而导致。</font>
 
 ### **(11)DefaultModelGraphMapper.java**
+
 1)修改以下方法.
+
       @Override
       public Graph<String, ModelEdge> translateModel(
         Collection<Point> points, Collection<Path> paths, Vehicle vehicle) {
@@ -619,7 +638,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     import java.util.Set;
 
 ### **(12)Dispatcher.java**
+
 1)声明接口.
+
     /// ----------------------------------------------------------------------
     /// Support reroute while a vehicle arrives
     /// the destination of a step of the route.
@@ -627,7 +648,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     /// ----------------------------------------------------------------------
 
 ### **(13)DefaultDispatcher.java**
+
 1)新增以下方法.
+
       /// ------------------------------------------------------------------------
       @Override
       public void vehicleUpdatedProgressIndex() {
@@ -651,7 +674,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     import static org.opentcs.strategies.basic.dispatching.DefaultDispatcherConfiguration.RerouteTrigger.ROUTE_STEP_FINISHED;
 
 ### **(14)DefaultVehicleController.java**
+
 1)修改以下方法.
+
       private void updatePositionWithOrder(String position, Point point) {
           /*...*/
           vehicleService.updateVehicleRouteProgressIndex(
@@ -666,7 +691,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       }
 
 ### **(15)DispatcherService.java**
+
 1)声明接口.
+
       /// ------------------------------------------------------------------------
       /// Support reroute while a vehicle arrives
       /// the destination of a step of the route.
@@ -674,7 +701,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       /// ------------------------------------------------------------------------
 
 ### **(16)RemoteDispatcherService.java**
+
 1)声明接口.
+
       /// ------------------------------------------------------------------------
       /// Support reroute while a vehicle arrives
       /// the destination of a step of the route.
@@ -685,7 +714,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       /// ------------------------------------------------------------------------
 
 ### **(17)StandardDispatcherService.java**
+
 1)新增以下方法
+
       /// ------------------------------------------------------------------------
       /// Returns the index of this command in the route.
       /// Support reroute while a vehicle arrives
@@ -697,7 +728,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       /// ------------------------------------------------------------------------
 
 ### **(18)RemoteDispatcherServiceProxy.java**
+
 1)新增以下方法
+
       /// ------------------------------------------------------------------------
       /// Support reroute while a vehicle arrives
       /// the destination of a step of the route.
@@ -713,7 +746,9 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
       /// ------------------------------------------------------------------------
 
 ### **(19)StandardRemoteDispatcherService.java**
+
 1)新增以下方法
+
       /// ------------------------------------------------------------------------
       /// Support reroute while a vehicle arrives
       /// the destination of a step of the route.
