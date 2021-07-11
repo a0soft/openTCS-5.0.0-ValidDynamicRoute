@@ -600,7 +600,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
         return (long) graphPath.getWeight();
       }
 
-<font color=blue face="黑体">注：网友们提到的不能派单或不能自动分配车辆现象，可能因为前言所述两篇文章忽略了此部分而导致。</font>
+<font color=#ff0000 size=4 face="黑体">注：网友们提到的不能派单或不能自动分配车辆现象，可能因为前言所述两篇文章忽略了此部分而导致。</font>
 
 ### **(11)DefaultModelGraphMapper.java**
 
