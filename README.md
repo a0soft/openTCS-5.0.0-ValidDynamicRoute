@@ -103,7 +103,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     energyLevelSufficientlyRecharged="45"
     maxVelocity="1000" maxReverseVelocity="1000">
         <property name="ip" value="127.0.0.1"/>
-        <property name="loopback:initialPosition" value="1"/>
+        <property name="loopback:initialPosition" value="2"/>
         <property name="loopback:loadOperation" value="Load cargo"/>
         <property name="loopback:unloadOperation" value="Unload cargo"/>
         <property name="port" value="50200"/>
