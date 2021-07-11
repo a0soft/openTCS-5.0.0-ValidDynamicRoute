@@ -11,15 +11,15 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 
 {
 
-\"OS\":\"Ubuntu 20.04.2\",
+  \"OS\":\"Ubuntu 20.04.2\",
 
-\"IDE\":\"Apache Netbeans IDE 12.0\",
+  \"IDE\":\"Apache Netbeans IDE 12.0\",
 
-\"JdkVersion\":\"Java 11.0.10\",
+  \"JdkVersion\":\"Java 11.0.10\",
 
-\"openTCSVersion\":\"5.0.0\",
+  \"openTCSVersion\":\"5.0.0\",
 
-\"CurlVersion\":\"7.68.0\"
+  \"CurlVersion\":\"7.68.0\"
 
 }
 
@@ -163,6 +163,7 @@ maxVelocity=\"1000\" maxReverseVelocity=\"1000\"\>
 ### **(02)DefaultDispatcherConfiguration.java**
 
 派发器配置中, 为重新寻路触发器加入相关配置项.
+```java
 
 \@ConfigurationEntry(
 
@@ -211,6 +212,7 @@ TOPOLOGY_CHANGE
 ;
 
 }
+```
 
 ### **(03)opentcs-kernel-defaults-baseline.properties**
 
@@ -271,6 +273,7 @@ curl -X PUT \"http://localhost:55200/v1/vehicles/Ve0004/integrationLevel
 ### **(05)2-tn-demo-lb-1234-create-to-part1.sh**
 
 该批处理调用curl, 生成几个运单, 其分别预订一辆指定的车.
+```bash
 
 #!/bin/sh
 
@@ -321,6 +324,7 @@ curl -X POST
 
 \\\"destinations\\\":\[{\\\"locationName\\\":\\\"St01\\\",\\\"operation\\\":\\\"Load
 cargo\\\"}\]}\"
+```
 
 以下三个文件中运单号不同, 且:
 
@@ -333,6 +337,7 @@ cargo\\\"}\]}\"
 ### **(06)3-tn-demo-lb-1234-create-to-part2.sh**
 
 该批处理调用curl, 生成配合(05)的几个运单.
+```bash
 
 #!/bin/sh
 
@@ -391,6 +396,7 @@ curl -X POST
 cargo\\\"},
 
 {\\\"locationName\\\":\\\"Re04\\\",\\\"operation\\\":\\\"CHARGE\\\"}\]}\"
+```
 
 以下三个文件中运单号不同, 且:
 
@@ -403,6 +409,7 @@ cargo\\\"},
 ### **(07)DefaultRouter.java**
 
 1)修改了以下2个方法.
+```java
 
 \@Override
 
@@ -495,6 +502,7 @@ long costs = pointRouter.getCosts(sourcePoint, destinationPoint);
 /\*\...\*/
 
 }
+```
 
 2)新增以下2个方法.
 
