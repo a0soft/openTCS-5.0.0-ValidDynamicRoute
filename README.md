@@ -89,7 +89,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
 
 ### (01)tn-demo-lb-1234.xml
 
-这是测试用的交通运输网模型文件，其改编自openTCS官方自带的0.0.3版的Demo-01.xml.
+这是测试用的交通运输网模型文件，其改编自openTCS官方自带的0.0.3版的Demo-01.xml；其中，车4辆、进货位3个、出货位2个、储货位2个、工作站3个、充电兼泊车位4个.
 
 ![tn-demo-lb-1234-v1](https://github.com/a0soft/openTCS-5.0.0-ValidDynamicRoute/blob/main/images/tn-demo-lb-1234-v1.png)
 
