@@ -210,6 +210,7 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
     \"destinations\":[{\"locationName\":\"St01\",\"operation\":\"Load cargo\"}]}"
 
 以下三个文件中运单号不同, 且:
+
     6-tn-demo-lb-1234-create-to-part1.sh, 与之类似;
     4-tn-demo-lb-1234-create-to-nv-part1.sh, 与之类似但未预订车辆;
     8-tn-demo-lb-1234-create-to-nv-part1.sh, 与之类似但未预订车辆.
