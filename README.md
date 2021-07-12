@@ -107,8 +107,11 @@ It realizes valid and dynamic route finding in openTCS 5.0.0.
         <property name="loopback:loadOperation" value="Load cargo"/>
         <property name="loopback:unloadOperation" value="Unload cargo"/>
         <property name="port" value="50200"/>
+        <property name="tcs:assignedParkingPosition" value="2"/>
         <property name="tcs:preferredAdapterClass" value=
-        "org.opentcs.virtualvehicle.LoopbackCommunicationAdapterFactory"/>
+            "org.opentcs.virtualvehicle.LoopbackCommunicationAdapterFactory"/>
+        <property name="tcs:preferredParkingPosition" value="2"/>
+        <property name="tcs:preferredRechargePosition" value="Re01"/>
     </vehicle>
 
 ### **(02)DefaultDispatcherConfiguration.java**
